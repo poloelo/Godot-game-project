@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=3 uid="uid://d36j0lacmxp1h"]
+
+[ext_resource type="PackedScene" uid="uid://dhpat15xdtc5s" path="res://Character/CharacterScene.tscn" id="1_qh4hx"]
+[ext_resource type="PackedScene" uid="uid://bpa1plbdgsh3j" path="res://TestScenes/Plateform/Plateform.tscn" id="2_1uo3k"]
+[ext_resource type="PackedScene" uid="uid://x2y0y2evi34v" path="res://Items/Items/Item_meshes/Camera.tscn" id="4_v5o3d"]
+[ext_resource type="PackedScene" uid="uid://cuaedrw0lpqcr" path="res://Items/Items/Item_meshes/ball.tscn" id="4_vq8d1"]
+
+[node name="MainTest" type="Node3D"]
+
+[node name="BasePersonnage" parent="." instance=ExtResource("1_qh4hx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703529, 0)
+
+[node name="Plateform" parent="." instance=ExtResource("2_1uo3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.19055, 0)
+
+[node name="Camera" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera2" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera3" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera4" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera5" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera6" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera7" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera8" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.66366, 0.0143242)
+
+[node name="Camera9" parent="." instance=ExtResource("4_v5o3d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32133, 6.59645, 0.0143242)
+
+[node name="Ball" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball2" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball3" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball4" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball5" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball6" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball7" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.43127, -0.786395, 0)
+
+[node name="Ball8" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball9" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball10" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball11" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball12" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball13" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball14" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Ball15" parent="." instance=ExtResource("4_vq8d1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.43127, -0.786395, 0)
+
+[node name="Node3D" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D2" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D3" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D4" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D5" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D6" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D7" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D8" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D9" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D10" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D11" parent="." instance=ExtResource("4_vq8d1")]
+
+[node name="Node3D12" parent="." instance=ExtResource("4_vq8d1")]

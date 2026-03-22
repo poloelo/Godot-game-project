@@ -1,0 +1,165 @@
+[gd_scene load_steps=18 format=3 uid="uid://dhpat15xdtc5s"]
+
+[ext_resource type="Script" uid="uid://0m1uun52q7dp" path="res://Character/CharacterScript.gd" id="1_r8mqh"]
+[ext_resource type="Script" uid="uid://bmhdrdyqn37hg" path="res://Character/Combat/WeaponHolderScript.gd" id="2_rtwic"]
+[ext_resource type="Script" uid="uid://bxcfaul8uok40" path="res://Character/StateMachine/state_machine.gd" id="3_02ldw"]
+[ext_resource type="PackedScene" uid="uid://bueg0unvo20sb" path="res://Weapon/Grenade Gun.tscn" id="3_7qxxv"]
+[ext_resource type="Script" uid="uid://bero00uaa14e5" path="res://Character/StateMachine/States/idle_state.gd" id="5_bae53"]
+[ext_resource type="Script" uid="uid://b6j7bkljtahvk" path="res://Character/StateMachine/States/move_state.gd" id="6_5b3jf"]
+[ext_resource type="Script" uid="uid://ct1rl7700lb73" path="res://Character/StateMachine/States/jump_state.gd" id="9_oydss"]
+[ext_resource type="PackedScene" uid="uid://cdgkpds4nrjmr" path="res://Character/Ressource/AnimationScene_Imported.tscn" id="11_de5lo"]
+[ext_resource type="Script" uid="uid://de7svy65w2isu" path="res://Character/PlayerUI.gd" id="12_rtwic"]
+[ext_resource type="Script" uid="uid://ddydedisesvby" path="res://Character/Camera/CameraScript.gd" id="12_tm0be"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eff2y"]
+radius = 0.28787
+height = 1.48254
+
+[sub_resource type="PrismMesh" id="PrismMesh_idytr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r8mqh"]
+font_size = 28
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1ybml"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1ybml"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 30.0
+dof_blur_far_transition = 100.0
+dof_blur_near_distance = 23.78
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3wsdc"]
+radius = 0.343647
+
+[sub_resource type="SphereMesh" id="SphereMesh_rtwic"]
+
+[node name="BasePersonnage" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_r8mqh")
+speed = 2.5
+
+[node name="Box_PhysicCollision" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0.510592, 0)
+shape = SubResource("CapsuleShape3D_eff2y")
+
+[node name="Mesh_pointeur" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(0.142303, -0.00729087, -3.18694e-10, 0, -6.22843e-09, 0.14249, -0.00729087, -0.142303, -6.22027e-09, 0, 0.710427, -0.537807)
+mesh = SubResource("PrismMesh_idytr")
+
+[node name="inventory" type="Node3D" parent="CharacterBody3D"]
+
+[node name="Weapon_holder" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(-1, 5.47519e-07, 4.04546e-06, 9.96284e-07, 0.993733, 0.111779, -3.9589e-06, 0.111779, -0.993733, -0.00299879, 2.58715, -2.19948)
+script = ExtResource("2_rtwic")
+weapon = ExtResource("3_7qxxv")
+
+[node name="StateMachine" type="Node3D" parent="CharacterBody3D"]
+script = ExtResource("3_02ldw")
+
+[node name="IdleState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+script = ExtResource("5_bae53")
+
+[node name="MoveState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+script = ExtResource("6_5b3jf")
+
+[node name="CrouchState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+
+[node name="CrouchMoveState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+
+[node name="JumpState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+script = ExtResource("9_oydss")
+
+[node name="AimState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+
+[node name="SprintState" type="Node3D" parent="CharacterBody3D/StateMachine"]
+
+[node name="AuxScene" parent="CharacterBody3D/StateMachine" instance=ExtResource("11_de5lo")]
+transform = Transform3D(-0.26286, 0, -2.298e-08, 0, 0.26286, 0, 2.298e-08, 0, -0.26286, 0, 0, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_rtwic")
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -23.5
+offset_right = 96.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.0
+offset_top = -22.5
+offset_right = 96.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_r8mqh")
+horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_1ybml")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, -2.84217e-14, 0, 5.68434e-14, 1, 7.45058e-09, -4.54747e-13, -7.45058e-09, 1, 0, 0, 0)
+script = ExtResource("12_tm0be")
+
+[node name="x_pivot" type="Node3D" parent="Pivot"]
+transform = Transform3D(-1, 5.31373e-07, 4.17776e-06, 6.4047e-07, 0.999658, 0.0261574, -4.16244e-06, 0.0261574, -0.999658, 0.000110662, 0.655071, -0.955703)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/x_pivot"]
+transform = Transform3D(1, -6.54683e-09, 4.69736e-08, 6.54757e-09, 1, -1.93715e-07, -4.69813e-08, 1.93715e-07, 1, 0, 0, 0)
+attributes = SubResource("CameraAttributesPractical_1ybml")
+size = 0.602
+
+[node name="RayCast3D" type="RayCast3D" parent="Pivot/x_pivot/Camera3D"]
+transform = Transform3D(1, -4.54747e-13, -1.13687e-13, 0, -4.47035e-08, -1, 0, 1, -4.47035e-08, 0, 0, -0.85)
+target_position = Vector3(0, -24.02, 0)
+
+[node name="Pickup_Area" type="Area3D" parent="Pivot/x_pivot/Camera3D"]
+transform = Transform3D(-1, 6.45786e-07, -4.1153e-06, 5.37921e-07, 0.999658, 0.0261572, 4.13079e-06, 0.0261572, -0.999658, 0.000103042, -0.609102, -1.76538)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/x_pivot/Camera3D/Pickup_Area"]
+transform = Transform3D(1.46145, -9.90317e-21, 0, 9.90317e-21, 1.46145, 2.22045e-16, 0, -2.22045e-16, 1.46145, 1.63927e-12, 0.642104, 0.450597)
+shape = SubResource("SphereShape3D_3wsdc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/x_pivot/Camera3D/Pickup_Area"]
+transform = Transform3D(0.0830044, 0, 0, 0, 0.0830044, 0, 0, 0, 0.0830044, 0, 0.635803, 0)
+mesh = SubResource("SphereMesh_rtwic")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Pivot"]
+transform = Transform3D(-1, -2.84217e-14, -8.74232e-08, 1.00585e-21, 1, 0, 8.74228e-08, 0, -1, 0.00108147, 0.663537, -0.953952)
+visible = false
+light_energy = 0.531
+light_volumetric_fog_energy = 0.0
+light_bake_mode = 0
+spot_range = 0.909
+
+[connection signal="area_entered" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="CharacterBody3D" method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="CharacterBody3D" method="_on_area_3d_area_exited"]
+[connection signal="body_entered" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="CharacterBody3D" method="_on_pickup_area_body_entered"]
+[connection signal="body_entered" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="Control" method="_on_pickup_area_body_entered"]
+[connection signal="body_exited" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="CharacterBody3D" method="_on_pickup_area_body_exited"]
+[connection signal="body_exited" from="Pivot/x_pivot/Camera3D/Pickup_Area" to="Control" method="_on_pickup_area_body_exited"]
