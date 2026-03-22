@@ -9,30 +9,30 @@ var states := {}
 
 # Ces noms DOIVENT correspondre exactement aux noms des noeuds dans l'AnimationTree
 var blends_top := [
-	"Crouch Top",
-	"Crouch Walk Top",
-	"Idle Top",
-	"Jump Top",
-	"Pistol Aiming Top",
-	"Riffle Aiming Top",
-	"Running Top",
-	"Sprint Top"
+	"Crouch_top",
+	"Crouch_walk_top",
+	"Idle_top",
+	"Jump_top",
+	"Pistol_aiming top",
+	"Riffle_aiming top",
+	"Running_top",
+	"Sprint_top"
 ]
 var blends_bott := [
-	"Crouch Bott",
-	"Crouch Walk Bott",
-	"Idle Bott",
-	"Jump Bott 2",
-	"Pistol Aiming Bott",
-	"Riffle Aiming Bott",
-	"Running Bott",
-	"Sprint Bott"
+	"Crouch_bott",
+	"Crouch_walk_bott",
+	"Idle_bott",
+	"Jump_bott_2",
+	"Pistol_aiming_bott",
+	"Riffle_aiming_bott",
+	"Running_bott",
+	"Sprint_bott"
 ]
 
 var blend_values_top := {}
 var blend_values_bott := {}
-var target_top := "Idle Top"
-var target_bott := "Idle Bott"
+var target_top := "Idle_top"
+var target_bott := "Idle_bott"
 
 # Vitesse de blend par défaut. Peut être surchargée par set_blends().
 @export var blend_speed: float = 8.0
@@ -65,7 +65,7 @@ func _process(delta: float) -> void:
 		current_state.update(delta)
 
 func _lerp_blends(delta: float) -> void:
-	var t := clamp(_current_blend_speed * delta, 0.0, 1.0)
+	var t = clamp(_current_blend_speed * delta, 0.0, 1.0)
 	for anim_name in blends_top:
 		var target := 1.0 if anim_name == target_top else 0.0
 		blend_values_top[anim_name] = lerpf(blend_values_top[anim_name], target, t)
