@@ -1,82 +1,23 @@
 extends BaseState
 class_name CrouchState
 
-func enter(delta: float):
-	# Initialise le blend_state
-	for param_name in machine.animation_blend:
-		var param_path = "parameters/%s/blend_amount" % param_name
-		if anim_tree.has_method("get") and anim_tree.get(param_path) != null:
-			var current = anim_tree.get(param_path)
-			if typeof(current) == TYPE_FLOAT:
-				blend_state[param_name] = current
-	
-	# Vide le buffer de vélocité
-	velocity_buffer.clear()
-	
-	# Transition vers l'animation accroupie
-	var targets = {
-		"Running_top": 0.0,
-		"Running_bott": 0.0,
-		"Sprint_top": 0.0,
-		"Sprint_bott": 0.0,
-		"Crouch_top": 1.0,
-		"Crouch_bott": 1.0,
-		"Crouch_walk_top": 0.0,
-		"Crouch_walk_bott": 0.0,
-		"Pistol_aiming_top": 0.0,
-		"Pistol_aiming_bott": 0.0,
-		"Riffle_aiming_top": 0.0,
-		"Riffle_aiming_bott": 0.0
-	}
-	
-	machine.apply_blend_targets(targets, delta)
+func enter() -> void:
+	clear_velocity_buffer()
+	machine.set_blends("Crouch Top", "Crouch Bott")
 
-func update(delta: float):
-	if not Input.is_action_pressed("crouch"):
-		machine.switch_state("IdleState", delta)
-		return
-		
+func update(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():
-		machine.switch_state("JumpState", delta)
+		machine.switch_state("JumpState")
 		return
-		
+	if not Input.is_action_pressed("crouch"):
+		machine.switch_state("IdleState")
+		return
 	if Input.is_action_pressed("aim"):
-		if player.current_weapon == "pistol":
-			machine.switch_state("PistolAimState", delta)
-		else:
-			machine.switch_state("RifleAimState", delta)
+		machine.switch_state("AimState")
 		return
-	
-	# Vérifie si le joueur bouge tout en étant accroupi
-	var avg_velocity = update_velocity_buffer()
-	
-	if avg_velocity > machine.no_velocity_int * 1.2:
-		machine.switch_state("CrouchMoveState", delta)
-		return
-	
-	# Maintient l'animation accroupie
-	var targets = {
-		"Running_top": 0.0,
-		"Running_bott": 0.0,
-		"Sprint_top": 0.0,
-		"Sprint_bott": 0.0,
-		"Crouch_top": 1.0,
-		"Crouch_bott": 1.0,
-		"Crouch_walk_top": 0.0,
-		"Crouch_walk_bott": 0.0,
-		"Pistol_aiming_top": 0.0,
-		"Pistol_aiming_bott": 0.0,
-		"Riffle_aiming_top": 0.0,
-		"Riffle_aiming_bott": 0.0
-	}
-	
-	machine.apply_blend_targets(targets, delta)
+	var avg_velocity := get_average_velocity()
+	if avg_velocity > StateMachine.NO_VELOCITY_THRESHOLD * 1.2:
+		machine.switch_state("CrouchMoveState")
 
-func exit(delta: float):
-	# Sauvegarde l'état actuel du blend pour une transition plus douce
-	for param_name in machine.animation_blend:
-		var param_path = "parameters/%s/blend_amount" % param_name
-		if anim_tree.has_method("get") and anim_tree.get(param_path) != null:
-			var current = anim_tree.get(param_path)
-			if typeof(current) == TYPE_FLOAT:
-				blend_state[param_name] = current
+func exit() -> void:
+	pass
