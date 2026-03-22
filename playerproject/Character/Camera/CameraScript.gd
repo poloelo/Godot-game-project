@@ -1,39 +1,44 @@
 extends Node3D
 
-@export var mouse_sensitivity : float = 30
-var mouse_sensitivity_x: float = 0.20/15*mouse_sensitivity # Ajuste la sensibilité pour plus de fluidité
-var mouse_sensitivity_y: float = 0.05/15*mouse_sensitivity
-@export var camera_offset := Vector3(0, 2, -5)  # Position par défaut de la caméra
-@export var min_distance := 1.5        
-@export var min_pitch: float = -45.0  # Limite inférieure de la rotation verticale ajustée
-@export var max_pitch: float = 60.0   # Limite supérieure de la rotation verticale ajustée
+@export var mouse_sensitivity: float = 30.0
+@export var min_pitch: float = -45.0
+@export var max_pitch: float = 60.0
+# Vitesse de lissage de la caméra. 0 = aucun lissage (raw), 30 = très lisse.
+@export var smoothing_speed: float = 25.0
 
-var yaw: float = 0.0
-var pitch: float = 0.0
-@onready var Character : CharacterBody3D = $"../CharacterBody3D"# Accès à la caméra pour manipuler ses rotations
-@onready var camera = $x_pivot
+@onready var character: CharacterBody3D = $"../CharacterBody3D"
+@onready var x_pivot: Node3D = $x_pivot
+
+# Cibles accumulées depuis les events souris (en radians)
+var _target_yaw: float = 0.0
+var _target_pitch: float = 0.0
+
+# Valeurs actuelles interpolées (appliquées à la scène)
+var _current_yaw: float = 0.0
+var _current_pitch: float = 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(delta) -> void:
-	# Positionne la caméra à la position du personnage (sans impacter la rotation du personnage)
-	position = Character.position + Vector3(0,0.3,0)
-	
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		# Met à jour yaw et pitch en fonction du mouvement de la souris et de la sensibilité
-		yaw -= event.relative.x * -mouse_sensitivity_x
-		pitch -= event.relative.y * -mouse_sensitivity_y
+	if not event is InputEventMouseMotion:
+		return
+	# Accumule uniquement la cible — pas de lerp ici, c'est dans _process
+	var sensitivity := mouse_sensitivity * 0.001
+	_target_yaw   -= event.relative.x * sensitivity
+	_target_pitch -= event.relative.y * sensitivity
+	_target_pitch = clamp(_target_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
 
-		# Limite pitch aux valeurs définies pour éviter la rotation excessive
-		pitch = clamp(pitch, min_pitch, max_pitch)
+func _process(delta: float) -> void:
+	# Suit la position du personnage
+	position = character.position + Vector3(0.0, 0.3, 0.0)
 
-		# Applique une rotation fluide avec les fonctions de rotation pour une interpolation naturelle sur la caméra uniquement
-		# Axe vertical (pitch)
-		var target_pitch = lerp(rotation_degrees.x, pitch, 0.5)
-		rotation_degrees.x = target_pitch
+	# Interpolation delta-based : résultat identique à tous les framerates
+	var t := clamp(smoothing_speed * delta, 0.0, 1.0)
+	_current_yaw   = lerp_angle(_current_yaw,  _target_yaw,  t)
+	_current_pitch = lerpf(_current_pitch, _target_pitch, t)
 
-		# Axe horizontal (yaw)
-		var target_yaw = lerp(rotation_degrees.y, -yaw, 0.5)
-		rotation_degrees.y = target_yaw
+	# Yaw appliqué sur ce noeud (Pivot horizontal)
+	rotation.y = _current_yaw
+	# Pitch appliqué sur l'enfant x_pivot (évite le gimbal lock)
+	x_pivot.rotation.x = _current_pitch

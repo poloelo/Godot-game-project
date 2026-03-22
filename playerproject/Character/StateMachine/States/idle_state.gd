@@ -1,16 +1,13 @@
-extends Node
+extends BaseState
 class_name IdleState
 
-var machine: StateMachine
+func enter() -> void:
+	clear_velocity_buffer()
+	machine.set_blends("Idle Top", "Idle Bott")
 
-func enter():
-	machine.set_blends("idle_top", "idle_bott")
-
-func update(delta):
-	if machine.player.is_moving():
-		machine.switch_state("WalkState")
-	elif Input.is_action_just_pressed("jump"):
+func update(delta: float) -> void:
+	if Input.is_action_just_pressed("jump") and player.is_on_floor():
 		machine.switch_state("JumpState")
-
-func exit():
-	pass
+		return
+	if player.is_moving():
+		machine.switch_state("WalkState")

@@ -1,16 +1,22 @@
-extends Node
+extends BaseState
 class_name WalkState
 
-var machine: StateMachine
+func enter() -> void:
+	clear_velocity_buffer()
+	machine.set_blends("Running Top", "Running Bott")
 
-func enter():
-	machine.set_blends("running_top", "running_bott")
-
-func update(delta):
-	if not machine.player.is_moving():
-		machine.switch_state("IdleState")
-	elif Input.is_action_just_pressed("jump"):
+func update(delta: float) -> void:
+	if Input.is_action_just_pressed("jump") and player.is_on_floor():
 		machine.switch_state("JumpState")
-
-func exit():
-	pass
+		return
+	if Input.is_action_pressed("sprint") and not player.state_vars["crouching"]:
+		machine.switch_state("SprintState")
+		return
+	if Input.is_action_pressed("crouch"):
+		machine.switch_state("CrouchMoveState")
+		return
+	if Input.is_action_pressed("aim"):
+		machine.switch_state("AimState")
+		return
+	if not player.is_moving():
+		machine.switch_state("IdleState")
