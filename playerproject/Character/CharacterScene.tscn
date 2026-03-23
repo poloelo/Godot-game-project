@@ -125,6 +125,7 @@ replication_config = SubResource("SceneReplicationConfig_1ybml")
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(1, -2.84217e-14, 0, 5.68434e-14, 1, 7.45058e-09, -4.54747e-13, -7.45058e-09, 1, 0, 0, 0)
 script = ExtResource("12_tm0be")
+mouse_sensitivity = 10.0
 
 [node name="x_pivot" type="Node3D" parent="Pivot"]
 transform = Transform3D(-1, 5.31373e-07, 4.17776e-06, 6.4047e-07, 0.999658, 0.0261574, -4.16244e-06, 0.0261574, -0.999658, 0.000110662, 0.655071, -0.955703)
