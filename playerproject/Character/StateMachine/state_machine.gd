@@ -35,8 +35,7 @@ func switch_state(state_name: String) -> void:
 	else:
 		push_warning("State introuvable: '%s'" % state_name)
 
-# Déclenche une transition dans l'AnimationStateMachine.
-# Le cross-fade est défini par transition dans l'éditeur AnimationTree.
-# Noms à faire correspondre aux noeuds de ton AnimationStateMachine dans l'éditeur.
+# Démarre directement l'état cible sans traverser les états intermédiaires.
+# Le reset=false conserve la position de l'animation si on revient sur le même état.
 func play_anim(anim_name: String) -> void:
-	anim_playback.travel(anim_name)
+	anim_playback.start(anim_name, false)
