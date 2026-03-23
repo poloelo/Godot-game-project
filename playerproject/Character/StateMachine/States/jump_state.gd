@@ -3,10 +3,11 @@ class_name JumpState
 
 func enter() -> void:
 	clear_velocity_buffer()
-	# Snap immédiat pour éviter un fondu bizarre depuis idle/walk
-	machine.snap_to_blends("Jump Top", "Jump Bott 2")
+	machine.play_anim("Jump")
 
 func update(delta: float) -> void:
+	# Attend l'atterrissage. La transition Jump → Fall peut aussi se faire
+	# automatiquement dans l'AnimationStateMachine via une condition "velocity_y < 0"
 	if player.is_on_floor():
 		if player.is_moving():
 			machine.switch_state("WalkState")

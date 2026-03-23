@@ -3,7 +3,7 @@ class_name WalkState
 
 func enter() -> void:
 	clear_velocity_buffer()
-	machine.set_blends("Running Top", "Running Bott")
+	machine.play_anim("Walk")
 
 func update(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():
