@@ -1,28 +1,25 @@
 extends Node
 class_name BaseState
 
-# Assignés par StateMachine._ready()
 var machine: StateMachine
 var player: Player
 
-# Buffer de vélocité pour des transitions stables (évite les flickering)
+# Buffer pour lisser la vélocité et éviter les micro-transitions parasites
 var _velocity_buffer: Array[float] = []
 const BUFFER_SIZE: int = 5
+const NO_VELOCITY_THRESHOLD: float = 0.3
 
 func enter() -> void:
 	pass
 
-func update(delta: float) -> void:
+func update(_delta: float) -> void:
 	pass
 
 func exit() -> void:
 	pass
 
-# Retourne la vélocité horizontale moyenne sur les dernières frames.
-# Utilisé pour éviter les transitions prématurées dues à des pics de vélocité.
 func get_average_velocity() -> float:
-	var current := player.get_horizontal_velocity()
-	_velocity_buffer.append(current)
+	_velocity_buffer.append(player.get_horizontal_velocity())
 	if _velocity_buffer.size() > BUFFER_SIZE:
 		_velocity_buffer.pop_front()
 	var total := 0.0
